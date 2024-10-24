@@ -25,17 +25,25 @@ public class ejercicioUnoDos {
         long tiemposIterativo =0;
         long mediaRecursivo=0;
         long mediaIterativo=0;
+        long tiempoI=0;
+        long tiempoR=0;
         ParteEntera recursivo=new ParteEntera();
         ParteEnteraIterativo iterativo=new ParteEnteraIterativo();
+        long[] arregloIterativo=new long[15];
+        long[] arregloRecursivo=new long[15];
 
         // Ejecutar y medir 15 veces Método 1
         for (int i = 0; i < 15; i++) {
-            tiemposRecursivo=tiemposRecursivo+medirTiempoEjecucion(recursivo);
+            tiempoR=medirTiempoEjecucion(recursivo);
+            arregloRecursivo[i]=tiempoR;
+            tiemposRecursivo=tiemposRecursivo+tiempoR;
         }
 
         // Ejecutar y medir 15 veces Método 2
         for (int i = 0; i < 15; i++) {
-            tiemposIterativo=tiemposIterativo+medirTiempoEjecucion(iterativo);
+            tiempoI=medirTiempoEjecucion(iterativo);
+            arregloIterativo[i]=tiempoI;
+            tiemposIterativo=tiemposIterativo+tiempoI;
         }
         
         mediaIterativo=tiemposIterativo/15;
@@ -44,5 +52,16 @@ public class ejercicioUnoDos {
         System.out.println("Tiempo total de metodo iterativo: "+tiemposIterativo+"ns");
         System.out.println("Media aritmetica metodo recursivo: "+mediaRecursivo+"ns");
         System.out.println("Media aritmetica metodo iterativo: "+mediaIterativo+"ns");
+        System.out.println("TABLA RECURSIVA");
+        for (int i = 0; i < 15; i++) {
+            System.out.println(arregloRecursivo[i]+"ns"+"    "+Math.abs(arregloRecursivo[i]-mediaRecursivo)+"ns");
+        }
+
+
+        System.out.println("TABLA ITERATIVA");
+        for (int i = 0; i < 15; i++) {
+            System.out.println(arregloIterativo[i]+"ns"+"    "+Math.abs(arregloIterativo[i]-mediaIterativo)+"ns");
+        }
+
     }
 }
