@@ -31,8 +31,9 @@ public class LZTuple {
     public static List<LZTuple> compress(String input, int windowSize) {
         List<LZTuple> compressed = new ArrayList<>();
         int cursor = 0;
+        int tamanioInput=input.length();
 
-        while (cursor < input.length()) {
+        while (cursor < tamanioInput) {
             int matchLength = 0;
             int matchOffset = 0;
             char nextChar = input.charAt(cursor);
@@ -41,19 +42,22 @@ public class LZTuple {
             int inicioVentBusqueda = Math.max(0, cursor - windowSize);
             //Recorremos la ventana de busqueda
             for (int cursorBusqueda = inicioVentBusqueda; cursorBusqueda < cursor; cursorBusqueda++) {
-                int length = 0;
-                while (length < (cursor - cursorBusqueda) && cursor + length < input.length() && input.charAt(cursorBusqueda + length) == input.charAt(cursor + length)) {
-                    length++;
+                int numCoincidencias = 0; //numero de coincidencias encontradas entre ventana de busqueda y ventana post-cursor
+                /*Mientras 
+                1. se evaluen coincidencias dentro de la ventanaBusqueda
+                2. no nos pasemos de la longitud del input*/
+                while (numCoincidencias < (cursor - cursorBusqueda) && cursor + numCoincidencias < tamanioInput && input.charAt(cursorBusqueda + numCoincidencias) == input.charAt(cursor + numCoincidencias)) {
+                    numCoincidencias++;
                 }
 
-                if (length > matchLength) {
-                    matchLength = length;
+                if (numCoincidencias > matchLength) {
+                    matchLength = numCoincidencias;
                     matchOffset = cursor - cursorBusqueda;
                 }
             }
 
             // Siguiente carácter después de la coincidencia
-            if (cursor + matchLength < input.length()) {
+            if (cursor + matchLength < tamanioInput) {
                 nextChar = input.charAt(cursor + matchLength);
             } else {
                 nextChar = '\0'; // Final del texto
